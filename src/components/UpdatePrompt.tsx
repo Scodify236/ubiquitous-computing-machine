@@ -7,7 +7,7 @@ export default function UpdatePrompt(handleUpdate: () => void) {
   const [fullList, setFullList] = createSignal(['']);
 
 
-  fetch('https://api.github.com/repos/n-ce/ytify/commits/main')
+  fetch('https://api.github.com/repos/Scodify236/ubiquitous-computing-machine/commits/main')
     .then(res => res.json())
     .then(data => data.commit.message.split('-'))
     .then(list => list.map((text: string) => (<li>{text}</li>)))
