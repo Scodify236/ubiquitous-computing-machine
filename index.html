@@ -36,8 +36,9 @@
       .then(res => res.json())
       .then(data => {
         store.api.piped = data.piped;      
-    store.api.invidious = data.invidious;
-        store.api.cobalt = data.cobalt;     store.player.fallback = location.origin;
+        store.api.invidious = data.invidious;
+        store.api.cobalt = data.cobalt;     
+        store.player.fallback = 'https://raag-emergency.vercel.app/api';
       });
  </script>
 
