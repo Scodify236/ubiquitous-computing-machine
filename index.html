@@ -34,14 +34,14 @@
 <link rel="icon" type="image/svg+xml" href="/rh_lite.svg">
 
   <script>
-      window.inject_raag_services = store => fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/list.json')
-     .then(res => res.json())
+    window.inject_raag_services = store => fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/list.json')
+    .then(res => res.json())
      .then(data => {
        store.api.piped = data.piped;      
    store.api.invidious = data.invidious;
-       store.api.cobalt = data.cobalt;     store.player.fallback = location.origin;
-     });
-      });</script>
+       store.api.cobalt = data.cobalt;     
+       store.player.fallback = location.origin;
+     });</script>
 
   <title>Raag heaven</title>
 </head>
@@ -220,7 +220,7 @@
       <ul id="suggestions"></ul>
       <div id="searchlist">
         <p style="
-        background:url('/rh_thumbnail_max.webp') center;
+        background:url('/rh_thumbnail_min.webp') center;
         padding: 3vmin;
         box-shadow: var(--shadow);
         border-radius: var(--roundness);
