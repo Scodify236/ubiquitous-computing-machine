@@ -34,13 +34,13 @@
 <link rel="icon" type="image/svg+xml" href="/rh_lite.svg">
 
   <script>
-    window.inject_raag_services = store => fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/list.json')
-      .then(res => res.json())
-      .then(data => {
-        store.api.piped = data.piped;      
-        store.api.invidious = data.invidious;
-        store.api.cobalt = data.cobalt;     
-        store.player.fallback = 'https://raag-emergency.vercel.app/api';
+      window.inject_ytify_services = store => fetch('https://raw.githubusercontent.com/n-ce/Uma/main/dynamic_instances.json')
+     .then(res => res.json())
+     .then(data => {
+       store.api.piped = data.piped;      
+   store.api.invidious = data.invidious;
+       store.api.cobalt = data.cobalt;     store.player.fallback = location.origin;
+     });
       });</script>
 
   <title>Raag heaven</title>
