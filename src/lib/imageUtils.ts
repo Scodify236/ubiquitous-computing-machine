@@ -19,12 +19,9 @@ export const generateImageUrl = (
 
 
 export function getThumbIdFromLink(url: string) {
-  
-  if (url.length < 37 && url.startsWith('https://i.ytimg.com/vi/'))
-    url = url.slice(23,34);
 
-  if(url.startsWith('https://i.ytimg.com/vi/'))
-    url = url.slice(23,34);
+  if (url.startsWith('/vi_webp'))
+    url = url.slice(9, 20);
 
   // for featured playlists
   if (url.startsWith('/') || url.length === 11) return url;
@@ -49,3 +46,4 @@ img.onerror = () => img.src.includes('max') ? img.src = img.src.replace('maxres'
   .replace('.webp', '.jpg').replace('vi_webp', 'vi') : '';
 
 img.src = blankImage;
+

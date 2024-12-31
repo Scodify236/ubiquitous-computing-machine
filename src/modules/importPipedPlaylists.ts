@@ -1,5 +1,5 @@
 
-// piped import playlists into Raag collections
+// piped import playlists into ytify collections
 
 import { addListToCollection, createCollection, superCollectionLoader } from "../lib/libraryUtils";
 import { convertSStoHHMMSS, notify } from "../lib/utils";
@@ -66,7 +66,7 @@ export async function pipedPlaylistsImporter() {
         addListToCollection(listTitle, list);
       })
   )).then(() => {
-    notify('Succesfully imported playlists from your piped account into Raag heaven as collections');
+    notify('Succesfully imported playlists from your piped account into Raag as collections');
   })
     .catch(e => {
       notify('Could not successfully import all playlists, Error : ' + e);

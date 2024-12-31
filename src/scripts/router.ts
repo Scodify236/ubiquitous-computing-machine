@@ -1,4 +1,4 @@
-import { actionsMenu, loadingScreen, searchFilters, superInput,rhIcon } from "../lib/dom";
+import { actionsMenu, loadingScreen, searchFilters, superInput, rhIcon } from "../lib/dom";
 import { goTo } from "../lib/utils";
 import { getSaved, params, store } from "../lib/store";
 import { appendToQueuelist } from "./queue";
@@ -17,7 +17,7 @@ const queueParam = params.get('a');
 function upcomingInjector(param: string) {
   loadingScreen.showModal();
 
-  fetch(`${location.origin}/public?id=${param}`)
+  fetch(`${location.origin}/collection?id=${param}`)
     .then(res => res.json())
     .then(data => {
       for (const stream of data)
@@ -105,7 +105,10 @@ if (errorParam) {
     const query = encodeURI(_[1]);
 
     if (route === '/list')
-      fetchList('/' + query.split('=').join('/'));
+      query.startsWith('si') ?
+        fetchCollection(query.split('=')[1], true) :
+        fetchList('/' + query.split('=').join('/'));
+
 
     if (route === '/search') {
       const x = new URLSearchParams(query);
@@ -126,7 +129,7 @@ else {
 
   const hasStreamQuery = params.has('s') || params.has('url') || params.has('text');
 
-  if (route === '/' && !hasStreamQuery)
+  if (route === '/' && !hasStreamQuery && location.search !== '?reset')
     route = getSaved('startupTab') || '/search';
 
 }

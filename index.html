@@ -3,46 +3,45 @@
 
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1237614381130102"
-     crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-  <meta name="description"
-    content="48kb/s to 160kb/s youtube audio streaming website. Copy a youtube video link or search a video up and listen to it as an audio totally free. Background Playback, Queues, Themes for a great user experience.">
-  <meta name="author" content="Shashwat">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="white">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="keywords"
-    content="Raag heaven,raag, Raag heaven, Youtube, youtube, Music,music, audio,opus, 32kbps,64kbps,Free ,spotify ,streaming, music-player ,  youtube-player , free-music, ytmusic">
-  <meta name="thumbnail" content="/rh_thumbnail_min.webp">
+<meta name="description"
+ content="48kb/s to 160kb/s youtube audio streaming website. Copy a youtube video link or search a video up and listen to it as an audio totally free. Background Playback, Queues, Themes for a great user experience.">
+<meta name="author" content="Shashwat">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="white">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="keywords"
+ content="Raag heaven,raag, Raag heaven, Youtube, youtube, Music,music, audio,opus, 32kbps,64kbps,Free ,spotify ,streaming, music-player ,  youtube-player , free-music, ytmusic">
+<meta name="thumbnail" content="/rh_thumbnail_min.webp">
 
-  <!-- social media preview, more info https://ogp.me -->
+<!-- social media preview, more info https://ogp.me -->
 
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Raag heaven">
-  <meta property="og:url" content="https://shcloud.netlify.app">
-  <meta property="og:site_name" content="Raag heaven">
-  <meta property="og:description" content="48-160kbps Opus YouTube Audio Streaming Web App.">
-  <meta property="og:image" content="/rh_thumbnail_min.webp">
-  <!-- tells google that this url is most important (e.g. not http (without s = secure))-->
-  <link rel="canonical" href="https://shcloud.netlify.app">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Raag heaven">
+<meta property="og:url" content="https://shcloud.netlify.app">
+<meta property="og:site_name" content="Raag heaven">
+<meta property="og:description" content="48-160kbps Opus YouTube Audio Streaming Web App.">
+<meta property="og:image" content="/rh_thumbnail_min.webp">
+<!-- tells google that this url is most important (e.g. not http (without s = secure))-->
+<link rel="canonical" href="https://shcloud.netlify.app">
 
-  <link rel="icon" type="image/png" href="/logo192.png" sizes="192x192">
-  <link rel="icon" type="image/png" href="/logo512.png" sizes="512x512">
-  <link rel="apple-touch-icon" href="/logo192.png">
-  <link rel="icon" type="image/svg+xml" href="/rh_lite.svg">
-  
+<link rel="icon" type="image/png" href="/logo192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/logo512.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/logo192.png">
+<link rel="icon" type="image/svg+xml" href="/rh_lite.svg">
+
   <script>
-    window.inject_Raag_services = store => fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/list.json')
+    window.inject_raag_services = store => fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/list.json')
       .then(res => res.json())
       .then(data => {
         store.api.piped = data.piped;      
         store.api.invidious = data.invidious;
         store.api.cobalt = data.cobalt;     
         store.player.fallback = 'https://raag-emergency.vercel.app/api';
-      });
- </script>
+      });</script>
 
   <title>Raag heaven</title>
 </head>
@@ -121,7 +120,6 @@
         </div>
       </div>
       
-
       <span id="trackline">
         <input type="range" value="0" id="progress" />
         <div>
@@ -278,8 +276,8 @@
         <label for="r.featured">Featured</label>
         <input type="radio" id="r.collections" name="superCollectionChips" value="collections">
         <label for="r.collections">Playlists</label>
-       <!-- <input type="radio" id="r.playlists" name="superCollectionChips" value="playlists">
-        <label for="r.playlists">Playlists</label>-->
+        <input type="radio" id="r.playlists" name="superCollectionChips" value="playlists">
+        <label for="r.playlists">Youtube-Playlists</label>
         <input type="radio" id="r.albums" name="superCollectionChips" value="albums">
         <label for="r.albums">Albums</label>
         <input type="radio" id="r.artists" name="superCollectionChips" value="artists">
@@ -325,11 +323,13 @@
             <input type="file" id="importSettingsBtn" class="hide">
           </button>
 
-          <a href="https://github.com/scodify236/raagheaven" target="_blank">Github</a>
+          <a href="https://github.com/n-ce/ytify/wiki/changelog" target="_blank">Changelog</a>
 
-         <!-- <a href="https://t.me/ytifytg" target="_blank">Telegram</a> -->
+          <a href="https://github.com/n-ce/ytify/" target="_blank">Github</a>
 
-        <!--  <a href="https://matrix.to/#/#ytify:matrix.org" target="_blank">Matrix</a> -->
+          <a href="https://t.me/ytifytg" target="_blank">Telegram</a>
+
+          <a href="https://matrix.to/#/#ytify:matrix.org" target="_blank">Matrix</a>
 
         </form>
 
@@ -365,10 +365,13 @@
         <button id="renameCollectionBtn">
           <i class="ri-edit-line"></i> Rename
         </button>
+        <button id="shareCollectionBtn">
+          <i class="ri-link"></i> Share
+        </button>
       </span>
       <br>
       <div id="playlist">
-        <h1>playlist, channel or your Playlist items show here</h1>
+        <h1>playlist, channel or your collection items show here</h1>
       </div>
     </section>
 

@@ -14,10 +14,9 @@ export default async function() {
 
     const [pi, iv] = custom_instance.split(',');
     store.api.piped[0] = pi;
-    store.api.invidious[0] =
-      store.player.proxy = iv;
+    store.api.invidious[0] = iv;
 
-  } else window.inject_Raag_services(store);
+  } else if ('inject_raag_services' in window) await window.inject_raag_services(store);
 
   // hls
 
@@ -42,11 +41,11 @@ export default async function() {
               const hlsUrl = store.player.data!.hls;
               const piProxy = (new URL(hlsUrl)).origin;
 
-              if (piProxy === store.player.proxy) {
+              if (piProxy === store.api.invidious[0]) {
                 notify(d.details);
                 return;
               }
-              const newUrl = hlsUrl.replace(piProxy, store.player.proxy);
+              const newUrl = hlsUrl.replace(piProxy, store.api.invidious[0]);
               h.loadSource(newUrl);
             }
             else {
@@ -83,8 +82,11 @@ export default async function() {
     loadingScreen.showModal();
     if (isPWA && shareAction) {
       const a = $('a');
-      a.href = await getDownloadLink(store.actionsMenu.id);
-      a.click();
+      const l = await getDownloadLink(store.actionsMenu.id);
+      if (l) {
+        a.href = l;
+        a.click();
+      }
     }
     else await player(id)
 
@@ -99,7 +101,10 @@ export default async function() {
     superInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Enter' }));
   }
 
-  fetchCollection(params.get('collection'));
+  const collection = params.get('collection');
+  const shared = params.get('si');
+
+  fetchCollection(collection || shared, Boolean(shared));
 
 
   // list loading
@@ -111,6 +116,9 @@ export default async function() {
         .split('=')
         .join('/')
     );
+
+  // if (location.origin === 'https://ytify.netlify.app')
+    // alert('Users are requested to migrate to ytify.us.kg before Feb 2025.');
 
 
 

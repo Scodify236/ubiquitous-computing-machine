@@ -150,8 +150,8 @@ export default function() {
           }}
 
         >
-          <option value='opus'>Opus</option>
-          <option value='mp3'>MP3 (Recommended)</option>
+          <option value='opus'>Opus (Recommended)</option>
+          <option value='mp3'>MP3</option>
           <option value='wav'>WAV</option>
           <option value='ogg'>OGG</option>
         </Selector>
@@ -280,6 +280,18 @@ export default function() {
 
         </Show>
 
+        <ToggleSwitch
+          id="HLS_Switch"
+          name='HTTP Live Streaming'
+          checked={getSaved('HLS') === 'true'}
+          onClick={() => {
+            getSaved('HLS') ?
+              removeSaved('HLS') :
+              save('HLS', 'true');
+            location.reload();
+          }}
+
+        />
 
       </div>
 
@@ -438,20 +450,20 @@ export default function() {
 
 
 
-function clearCache() {
-  self.caches.keys().then(s => { s.forEach(k => { self.caches.delete(k) }) });
-  navigator.serviceWorker.getRegistrations().then(s => { s.forEach(r => { r.unregister() }) });
-  location.reload();
+async function clearCache(_: Event | undefined = undefined) {
+  await self.caches.keys().then(s => { s.forEach(k => { self.caches.delete(k) }) });
+  await navigator.serviceWorker.getRegistrations().then(s => { s.forEach(r => { r.unregister() }) });
+
+  if (_?.type === 'click') location.reload();
 }
 
-function restoreSettings() {
+function restoreSettings(_: Event | undefined = undefined) {
   const temp = getSaved('library');
   localStorage.clear();
 
-  if (temp)
-    save('library', temp);
-
-  location.reload();
+  if (temp) save('library', temp);
+  
+  if (_?.type === 'click') location.reload();
 }
 
 function extractSettings() {
@@ -463,12 +475,11 @@ function extractSettings() {
     keys[key] = getSaved(key) as string;
   }
   return keys;
-
 }
 
 function exportSettings() {
   const link = $('a');
-  link.download = 'Raag_settings.json';
+  link.download = 'raag_settings.json';
   link.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(extractSettings(), undefined, 2))}`;
   link.click();
 }
@@ -487,24 +498,18 @@ async function importSettings(e: Event) {
 
     location.reload();
   }
-
 }
-
 
 
 // emergency use
 if (location.search === '?reset') {
-  history.replaceState({}, '', location.pathname);
   clearCache();
   restoreSettings();
+  history.replaceState({}, '', location.pathname);
 }
-
-
 
 
 document.getElementById('clearCacheBtn')!.addEventListener('click', clearCache);
 document.getElementById('restoreSettingsBtn')!.addEventListener('click', restoreSettings);
 document.getElementById('exportSettingsBtn')!.addEventListener('click', exportSettings);
 document.getElementById('importSettingsBtn')!.addEventListener('change', importSettings);
-
-

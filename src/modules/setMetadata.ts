@@ -59,7 +59,7 @@ export async function setMetaData(data: CollectionItem) {
       if (navigator.share) {
         navigator.share({
           title: data.title,
-          text: `Check out this video: ${data.title}`,
+          text: `Check out this song: ${data.title}`,
           url: shareUrl,
         })
         .then(() => console.log('Shared successfully'))  // Log success

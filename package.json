@@ -1,8 +1,7 @@
-
 {
-  "name": "Raagheaven",
+  "name": "Raag",
   "type": "module",
-  "version": "2.4",
+  "version": "7.4",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -24,8 +23,7 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.6",
     "vite-plugin-pwa": "^0.21.1",
-    "vite-plugin-solid": "^2.11.0",
-     "@rollup/rollup-linux-x64-gnu": "^4.29.1"
+    "vite-plugin-solid": "^2.11.0"
   },
   "browserslist": [
     "defaults"
