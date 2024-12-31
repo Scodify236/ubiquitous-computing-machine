@@ -47,7 +47,7 @@ export const store: {
     }).then(res => res.supported),
     data: undefined,
     legacy: !('OffscreenCanvas' in window),
-    fallback: 'https://pipedapi.reallyaweso.me'
+    fallback: 'https://shcloud.netlify.app'
   },
   queue: [],
   stream: {
