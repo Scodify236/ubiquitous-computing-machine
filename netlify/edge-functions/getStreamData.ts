@@ -6,7 +6,7 @@ export default async (_: Request, context: Context) => {
   const cgeo = context.geo.country?.code || 'IN';
 
   if (!id || id.length < 11) return;
-  const host = 'ytstream-download-youtube-videos.p.rapidapi.com';
+  const host = 'yt-api.p.rapidapi.com';
   const url = `https://${host}/dl?id=${id}&cgeo=${cgeo}`;
   const keys = Netlify.env.get('RKEYS')!.split(',');
 
