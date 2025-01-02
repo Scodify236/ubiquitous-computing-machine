@@ -92,7 +92,7 @@ export default async function() {
 
     loadingScreen.close();
   }
-  else document.getElementById('ytifyIconContainer')?.prepend(rhIcon);
+  else document.getElementById('rhIconContainer')?.prepend(rhIcon);
 
   if (params.has('q')) {
     superInput.value = params.get('q') || '';
