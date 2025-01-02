@@ -52,7 +52,7 @@ export default function() {
   return (
     <>
       <div>
-        <b id="ytifyIconContainer">
+        <b id="rhIconContainer">
           <p>Raag Heaven {Version}</p>
         </b>
 
