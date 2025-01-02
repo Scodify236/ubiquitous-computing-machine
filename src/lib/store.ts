@@ -60,7 +60,7 @@ export const store: {
   streamHistory: [],
   api: {
     piped: ['https://pipedapi.kavin.rocks'],
-    invidious: ['https://invidious.jing.rocks'],
+    invidious: ['https://raag.timelessnesses.me'],
     hyperpipe: 'https://hyperpipeapi.onrender.com',
     cobalt: 'https://cobalt-api.kwiatekmiki.com',
     index: 0
