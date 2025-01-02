@@ -11,23 +11,6 @@
     border-radius: 0;
   }
 
-  #shareBtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 24px;  /* Adjust size as needed */
-  }
-  
-  #shareBtn i {
-    color: var(--text);
-  }
-  
-  #shareBtn:hover i {
-    color: rgb(95, 93, 93);
-  }
-  
-
 
   #upperLayer {
     width: 100%;

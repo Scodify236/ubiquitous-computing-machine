@@ -52,8 +52,8 @@ export default function() {
   return (
     <>
       <div>
-        <b id="rhIconContainer">
-          <p>Raag heaven {Version}</p>
+        <b id="ytifyIconContainer">
+          <p>Raag Heaven {Version}</p>
         </b>
 
         <ToggleSwitch

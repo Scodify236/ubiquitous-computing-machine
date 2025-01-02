@@ -22,7 +22,7 @@ export const store: {
     piped: string[],
     invidious: string[],
     hyperpipe: string,
-    cobalt: string
+    supermix: string,
     index: number
   },
   loadImage: 'off' | 'lazy' | 'eager',
@@ -47,7 +47,7 @@ export const store: {
     }).then(res => res.supported),
     data: undefined,
     legacy: !('OffscreenCanvas' in window),
-    fallback: 'https://pipedapi.reallyaweso.me'
+    fallback: ''
   },
   queue: [],
   stream: {
@@ -60,9 +60,9 @@ export const store: {
   streamHistory: [],
   api: {
     piped: ['https://pipedapi.kavin.rocks'],
-    invidious: ['https://raag.timelessnesses.me'],
+    invidious: ['https://invidious.jing.rocks'],
     hyperpipe: 'https://hyperpipeapi.onrender.com',
-    cobalt: 'https://cobalt-api.kwiatekmiki.com',
+    supermix: '',
     index: 0
   },
   loadImage: getSaved('imgLoad') as 'off' | 'lazy' || 'eager',

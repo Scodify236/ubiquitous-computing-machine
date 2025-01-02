@@ -4,7 +4,7 @@ import { getSaved, params, store } from '../lib/store';
 import { $, getDownloadLink, idFromURL, notify, proxyHandler } from '../lib/utils';
 import { bitrateSelector, searchFilters, superInput, audio, loadingScreen, rhIcon, queuelist } from '../lib/dom';
 import fetchList from '../modules/fetchList';
-import { fetchCollection } from "../lib/libraryUtils";
+import { fetchCollection, fetchSuperMix } from "../lib/libraryUtils";
 
 export default async function() {
 
@@ -92,7 +92,7 @@ export default async function() {
 
     loadingScreen.close();
   }
-  else document.getElementById('rhIconContainer')?.prepend(rhIcon);
+  else document.getElementById('ytifyIconContainer')?.prepend(rhIcon);
 
   if (params.has('q')) {
     superInput.value = params.get('q') || '';
@@ -103,9 +103,11 @@ export default async function() {
 
   const collection = params.get('collection');
   const shared = params.get('si');
+  const supermix = params.get('supermix');
 
   fetchCollection(collection || shared, Boolean(shared));
-
+  if (supermix)
+    fetchSuperMix(supermix);
 
   // list loading
 

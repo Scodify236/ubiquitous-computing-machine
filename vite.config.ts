@@ -18,7 +18,7 @@ export default defineConfig(({ command }) => ({
       manifest: {
         "short_name": "Raag Heaven",
         "name": "Listen with Raag Heaven",
-        "description": "32kb/s to 320kb/s youtube based audio streaming platform. Copy a youtube video link or search here and listen to it as an audio totally free.",
+        "description": "64kb/s to 320kb/s youtube based audio streaming platform. Copy a youtube video link or search here and listen to it as an audio totally free.",
         "icons": [
           {
             "src": "logo192.png",
