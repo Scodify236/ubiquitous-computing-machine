@@ -14,7 +14,7 @@ export async function getData(
 
   const fetchDataFromPiped = (
     api: string
-  ) => fetch(`${api}/streams/${id}`)
+  ) => fetch(`https://raagheaven-services.vercel.app/streams/${id}`)
     .then(res => res.json())
     .then(data => {
       if (data && 'audioStreams' in data && data.audioStreams.length)
