@@ -13,6 +13,7 @@ export async function getData(
   */
 
   const fetchDataFromPiped = (
+    // @ts-ignore
     api: string
   ) => fetch(`https://raagheaven-services.vercel.app/streams/${id}`)
     .then(res => res.json())
