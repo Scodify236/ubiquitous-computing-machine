@@ -93,7 +93,7 @@ export default function() {
           }}
         >
 
-          <option value="https://shcloud.netlify.app">Raag heaven</option>
+          <option value="https://ytify.us.kg">ytify</option>
           <option value="https://youtube.com">YouTube</option>
           <option value="https://piped.video">Piped</option>
           <option value="https://yewtu.be">Invidious</option>
@@ -479,7 +479,7 @@ function extractSettings() {
 
 function exportSettings() {
   const link = $('a');
-  link.download = 'raag_settings.json';
+  link.download = 'ytify_settings.json';
   link.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(extractSettings(), undefined, 2))}`;
   link.click();
 }

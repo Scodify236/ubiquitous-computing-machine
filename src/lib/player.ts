@@ -10,14 +10,18 @@ export default async function player(id: string | null = '') {
   if (!id) return;
 
   playButton.classList.replace(playButton.className, 'ri-loader-3-line');
-
   title.textContent = 'Fetching Data...';
 
   const data = await getData(id);
+  const h = store.player.HLS;
 
   if (data && 'audioStreams' in data)
     store.player.data = data;
-  else return player(id);
+  else {
+    playButton.classList.replace(playButton.className, 'ri-stop-circle-fill');
+    title.textContent = data.message || data.error || 'Fetching Data Failed';
+    return;
+  }
 
   await setMetaData({
     id: id,
@@ -32,10 +36,14 @@ export default async function player(id: string | null = '') {
     audio.load();
   }
   else {
-    const h = store.player.HLS;
-    h ?
-      h.loadSource(data.hls) :
-      import('../modules/setAudioStreams').then(mod => mod.setAudioStreams(
+    if (h) {
+      const hlsUrl = store.player.hlsCache.shift();
+      if (hlsUrl)
+        h.loadSource(hlsUrl);
+
+    }
+    else import('../modules/setAudioStreams')
+      .then(mod => mod.setAudioStreams(
         data.audioStreams
           .sort((a: { bitrate: string }, b: { bitrate: string }) => (parseInt(a.bitrate) - parseInt(b.bitrate))
           ),
