@@ -12,7 +12,7 @@ export async function getData(
   const fetchDataFromPiped = (
     // @ts-ignore
     api: string
-  ) => fetch(`streams/${id}`)
+  ) => fetch(`https://fuck.com/streams/${id}`)
     .then(res => res.json())
     .then(data => {
       if (data && 'audioStreams' in data && data.audioStreams.length)
