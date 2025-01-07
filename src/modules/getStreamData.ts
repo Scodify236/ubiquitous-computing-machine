@@ -12,7 +12,7 @@ export async function getData(
   const fetchDataFromPiped = (
     // @ts-ignore
     api: string
-  ) => fetch(`https://raag-emergency.vercel.app/api/streams/${id}`)
+  ) => fetch(`streams/${id}`)
     .then(res => res.json())
     .then(data => {
       if (data && 'audioStreams' in data && data.audioStreams.length)
