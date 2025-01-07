@@ -1,3 +1,4 @@
+
 import { store } from "../lib/store";
 
 export async function getData(
@@ -10,9 +11,8 @@ export async function getData(
   const pip = store.api.piped;
 
   const fetchDataFromPiped = (
-    // @ts-ignore
     api: string
-  ) => fetch(`https://fuck.com/streams/${id}`)
+  ) => fetch(`${api}/stem/${id}`)
     .then(res => res.json())
     .then(data => {
       if (data && 'audioStreams' in data && data.audioStreams.length)
@@ -85,4 +85,3 @@ export async function getData(
 
   return usePiped.catch(useInvidious);
 }
-
