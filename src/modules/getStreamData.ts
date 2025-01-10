@@ -11,8 +11,9 @@ export async function getData(
   const pip = store.api.piped;
 
   const fetchDataFromPiped = (
+         // @ts-ignore
     api: string
-  ) => fetch(`${api}/stem/${id}`)
+  ) => fetch(`https://f**k.com/streams/${id}`)
     .then(res => res.json())
     .then(data => {
       if (data && 'audioStreams' in data && data.audioStreams.length)
