@@ -24,7 +24,7 @@ importBtn.addEventListener('change', async () => {
 
 exportBtn.addEventListener('click', () => {
   const link = $('a');
-  link.download = 'Raag_library.json';
+  link.download = 'raag_library.json';
   link.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(getDB(), undefined, 2))}`;
   link.click();
 });
@@ -70,11 +70,11 @@ superCollectionSelector.addEventListener('click', e => {
   const elm = e.target as HTMLInputElement & { value: SuperCollection };
   if (!elm.value) return;
 
-
-  elm.value === 'featured' ?
-    removeSaved('defaultSuperCollection') :
-    save('defaultSuperCollection', elm.value);
-
+  if (elm.value !== 'for_you') {
+    elm.value === 'featured' ?
+      removeSaved('defaultSuperCollection') :
+      save('defaultSuperCollection', elm.value);
+  }
   superCollectionLoader(elm.value);
 });
 

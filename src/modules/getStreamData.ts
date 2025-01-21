@@ -1,19 +1,17 @@
-
 import { store } from "../lib/store";
 
 export async function getData(
   id: string,
   prefetch: boolean = false
-): Promise<Piped | Error & { error: string }> {
+): Promise<Piped | Record<'error' | 'message', string>> {
 
   const hls = store.player.HLS;
   const inv = store.api.invidious;
   const pip = store.api.piped;
 
   const fetchDataFromPiped = (
-         // @ts-ignore
     api: string
-  ) => fetch(`https://f**k.com/streams/${id}`)
+  ) => fetch(`${api}/streams/${id}`)
     .then(res => res.json())
     .then(data => {
       if (data && 'audioStreams' in data && data.audioStreams.length)
@@ -46,6 +44,7 @@ export async function getData(
         uploaderUrl: v.authorUrl,
         type: 'stream'
       })),
+      videoStreams: data.adaptiveFormats.filter((f) => f.type.startsWith('video')),
       audioStreams: data.adaptiveFormats.filter((f) => f.type.startsWith('audio')).map((v) => ({
         bitrate: parseInt(v.bitrate),
         codec: v.encoding,
@@ -62,10 +61,14 @@ export async function getData(
         .catch(() => e.errors[0]) :
       e.errors[0];
 
-  const useInvidious = (e: AggregateError) => hls ?
+  const useInvidious = (e: AggregateError, index = 0): Piped => hls ?
     e.errors[0] :
-    Promise.any(inv.map(fetchDataFromInvidious))
-      .catch(emergency);
+    fetchDataFromInvidious(inv[index])
+      .catch(() => {
+        if (index + 1 === inv.length)
+          return emergency(e);
+        else return useInvidious(e, index + 1);
+      })
 
   const usePiped = hls ?
     Promise
@@ -86,3 +89,4 @@ export async function getData(
 
   return usePiped.catch(useInvidious);
 }
+

@@ -1,7 +1,5 @@
-import { $, errorHandler, getApi, goTo, hostResolver, itemsLoader, notify, removeSaved, save } from "./utils";
-import { listBtnsContainer, listContainer, listSection, loadingScreen } from "./dom";
-import { render } from "solid-js/web";
-import StreamItem from "../components/StreamItem";
+import { $, errorHandler, getApi, goTo, itemsLoader, notify, renderDataIntoFragment, save } from "./utils";
+import { listBtnsContainer, listContainer, listSection, loadingScreen, removeFromListBtn, sortCollectionBtn } from "./dom";
 import { store } from "./store";
 
 
@@ -71,77 +69,26 @@ export function createCollection(title: string) {
     collectionSelector.add(new Option(title, title));
 }
 
-function renderDataIntoFragment(data: Collection, fragment: DocumentFragment) {
-
-  for (const item in data) {
-    const d = data[item];
-    if (d.id)
-      render(() => StreamItem({
-        id: d.id || '',
-        href: hostResolver(`/watch?v=${d.id}`),
-        title: d.title || '',
-        author: d.author || '',
-        duration: d.duration || '',
-        channelUrl: d.channelUrl || ''
-      }), fragment);
-  }
-}
 
 export async function fetchCollection(collection: string | null, shared: boolean = false) {
 
   if (!collection) return;
 
   const fragment = document.createDocumentFragment();
+  const isReserved = reservedCollections.includes(collection);
 
-  if (!shared) {
-    const db = getDB();
-    const data = db[<'discover'>decodeURI(collection)];
-
-    if (!data) {
-      alert('No items found');
-      return;
-    }
-
-    if (collection === 'discover')
-      for (const i in data)
-        if (data[i].frequency as number < 2)
-          delete db.discover?.[i];
-
-    saveDB(db);
-
-    renderDataIntoFragment(data, fragment);
-
-    if (!fragment.childElementCount) {
-      alert('No items found');
-      return;
-    }
-    store.list.id = collection;
-
-  } else {
-
-    listBtnsContainer.className = 'sharedClxn';
-    loadingScreen.showModal();
-    await fetch(`${location.origin}/collection/${collection}`)
-      .then(res => res.json())
-      .then(data => renderDataIntoFragment(data, fragment))
-      .catch(() => notify('Failed to load the shared collection, it may consist of a corrupted stream.'))
-      .finally(() => loadingScreen.close());
-
-  }
-
-
-  listContainer.innerHTML = '';
-  listContainer.appendChild(fragment);
+  shared ?
+    await getSharedCollection(collection, fragment) :
+    getLocalCollection(collection, fragment, isReserved);
 
   const isReversed = listContainer.classList.contains('reverse');
 
-  if (!shared && reservedCollections.includes(collection)) {
+  if (!shared && isReserved) {
     if (!isReversed)
       listContainer.classList.add('reverse');
   }
   else if (isReversed)
     listContainer.classList.remove('reverse');
-
 
   listBtnsContainer.className = listContainer.classList.contains('reverse') ? 'reserved' : (shared ? 'sharedClxn' : 'collection');
 
@@ -154,63 +101,98 @@ export async function fetchCollection(collection: string | null, shared: boolean
     (shared ? '?si=' : '?collection=') + collection
   );
   document.title = (collection || 'Shared Collection') + ' - Raag';
+
+}
+
+function setObserver(callback: () => number) {
+  new IntersectionObserver((entries, observer) =>
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const itemsLeft = callback();
+        observer.disconnect();
+        if (itemsLeft)
+          setObserver(callback);
+      }
+    }))
+    .observe(listContainer.children[0]);
 }
 
 
-export async function fetchSuperMix(query: string) {
+function getLocalCollection(collection: string, fragment: DocumentFragment, isReserved: boolean) {
+  const db = getDB();
+  const sort = isReserved ? false : sortCollectionBtn.classList.contains('checked');
+  let data = db[decodeURI(collection)];
 
-  store.list.id = 'supermix';
-  listBtnsContainer.className = 'supermix';
-  loadingScreen.showModal();
+  if (!data) {
+    notify('No items found');
+    return;
+  }
 
-  const fragment = await fetch(`${store.api.supermix}/supermix/${query}`)
-    .then(res => res.json())
-    .then(mixes => {
-      const fragment = document.createDocumentFragment();
-      renderDataIntoFragment(mixes, fragment);
-      return fragment;
-    })
-    .catch(() => { notify('Error Fetching Mixes.') })
-    .finally(() => loadingScreen.close());
+  const items = Object.entries(data);
+  let itemsToShow = items.length;
+  const usePagination = collection === 'history' && itemsToShow > 20;
 
-  if (!fragment) return;
+  if (usePagination)
+    data = Object.fromEntries(items.slice(itemsToShow - 1, itemsToShow));
 
+  if (collection === 'discover') {
+    for (const i in data)
+      if ((data[i] as CollectionItem & { frequency: number }).frequency < 2)
+        delete db.discover?.[i];
+    saveDB(db);
+  }
+
+  renderDataIntoFragment(data, fragment, sort);
   listContainer.innerHTML = '';
   listContainer.appendChild(fragment);
 
-  const isReversed = listContainer.classList.contains('reverse');
+  if (usePagination)
+    setObserver(() => {
+      itemsToShow -= 1;
+      const part = Object.fromEntries(items.slice(itemsToShow - 1, itemsToShow));
+      renderDataIntoFragment(part, fragment);
+      if (removeFromListBtn.classList.contains('delete'))
+        fragment.childNodes.forEach(v => {
+          (v as HTMLElement).classList.add('delete');
+        })
+      listContainer.prepend(fragment);
+      return itemsToShow;
+    });
 
-  if (isReversed)
-    listContainer.classList.remove('reverse');
-
-
-  listBtnsContainer.className = 'supermix';
-
-  if (location.pathname !== '/list')
-    goTo('/list');
-
-  listSection.scrollTo(0, 0);
-  history.replaceState({}, '',
-    location.origin + location.pathname + '?supermix=' + query
-  );
-  document.title = 'SuperMix - Raag';
-  removeSaved('defaultSuperCollection');
+  store.list.id = collection;
 }
 
+async function getSharedCollection(si: string, fragment: DocumentFragment) {
 
+  loadingScreen.showModal();
+  await fetch(`${location.origin}/collection/${si}`)
+    .then(res => res.json())
+    .then(data => renderDataIntoFragment(data, fragment))
+    .catch(() => notify('Failed to load the shared collection, it may consist of a corrupted stream.'))
+    .finally(() => loadingScreen.close());
+
+  listContainer.innerHTML = '';
+  listContainer.appendChild(fragment);
+}
 
 
 
 export async function superCollectionLoader(name: SuperCollection) {
   const db = getDB();
 
-  if (name === 'supermix')
-    if ('favorites' in db)
-      fetchSuperMix(Object.keys(db.favorites).join(''))
-    else return 'No Favorites Found';
+  function loadForYou() {
+    if ('favorites' in db) {
+      const ids = Object
+        .keys(db.favorites)
+        .filter(id => id.length === 11);
+      import('../modules/supermix')
+        .then(mod => mod.default(ids));
+      return '';
+    }
+    else return 'No favorites in library';
+  }
 
-
-  const loadFeaturedPls = () => fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/featured.md')
+  const loadFeaturedPls = () => fetch('https://raw.githubusercontent.com/wiki/n-ce/ytify/ytm_pls.md')
     .then(res => res.text())
     .then(text => text.split('\n'))
     .then(data => {
@@ -333,6 +315,8 @@ export async function superCollectionLoader(name: SuperCollection) {
         loadUrPls() :
         name === 'feed' ?
           await loadFeed() :
-          loadSubList(name)
+          name === 'for_you' ?
+            loadForYou() :
+            loadSubList(name)
   );
 }

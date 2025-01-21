@@ -5,7 +5,7 @@ export default async (_: Request, context: Context) => {
   const { uid } = context.params;
   const cgeo = context.geo.country?.code || 'IN';
 
-  const keys = Netlify.env.get('RKEYS')!.split(',');
+  const keys = Netlify.env.get('RAPID_API_KEYS')!.split(',');
 
   shuffle(keys);
 

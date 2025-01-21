@@ -1,4 +1,4 @@
-import { author, img as imgX, miniPlayer, playButton, title, rhIcon } from '../lib/dom';
+import { author, img as imgX, miniPlayer, playButton, title, raagIcon } from '../lib/dom';
 import { goTo } from '../lib/utils';
 import { store } from '../lib/store';
 
@@ -25,14 +25,14 @@ export function miniPlayerRoutingHandler(inHome: boolean, header: DOMTokenList) 
     document.getElementById('upperLayer')!.prepend(img);
     document.getElementById('meta')!.prepend(title, author);
     document.getElementById('playerControls')!.insertBefore(playButton, document.getElementById('seekFwdButton'));
-    document.getElementById('selectors')!.appendChild(rhIcon);
+    document.getElementById('selectors')!.appendChild(raagIcon);
   }
   else if (header.contains('hide')) {
     header.remove('hide');
     miniPlayer.prepend(img);
     mptext.append(title, author);
     miniPlayer.lastElementChild!.append(mptext, playButton);
-    document.getElementById('rhIconContainer')!.prepend(rhIcon);
+    document.getElementById('raagIconContainer')!.prepend(raagIcon);
   }
 
 }

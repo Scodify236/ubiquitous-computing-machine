@@ -2,8 +2,6 @@ import { defineConfig, PluginOption } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import autoprefixer from 'autoprefixer';
 import solidPlugin from 'vite-plugin-solid';
-import path from 'path';
-import fs from 'fs-extra';
 
 export default defineConfig(({ command }) => ({
   define: {
@@ -16,9 +14,9 @@ export default defineConfig(({ command }) => ({
     solidPlugin(),
     VitePWA({
       manifest: {
-        "short_name": "Raag Heaven",
-        "name": "Listen with Raag Heaven",
-        "description": "64kb/s to 320kb/s youtube based audio streaming platform. Copy a youtube video link or search here and listen to it as an audio totally free.",
+        "short_name": "Ytify",
+        "name": "Listen with ytify",
+        "description": "32kb/s to 128kb/s youtube audio streaming website. Copy a youtube video link and listen to it as an audio totally free.",
         "icons": [
           {
             "src": "logo192.png",
@@ -83,31 +81,16 @@ export default defineConfig(({ command }) => ({
         }
       },
       disable: command !== 'build',
-      includeAssets: ['*.woff2', 'rh_banner.webp']
+      includeAssets: ['*.woff2', 'ytify_banner.webp']
     })
   ],
-  build: {
-    rollupOptions: {
-      // Ensure the additional files are copied to the dist folder
-      plugins: [
-        {
-          name: 'copy-ads-and-cont',
-          writeBundle() {
-            // Copy ads.txt and cont.html to the dist folder after build
-            const distDir = path.resolve(__dirname, 'dist');
-            fs.copySync(path.resolve(__dirname, 'ads.txt'), path.join(distDir, 'ads.txt'));
-            fs.copySync(path.resolve(__dirname, 'cont.html'), path.join(distDir, 'cont.html'));
-          }
-        }
-      ]
-    }
-  },
   css: {
     postcss: {
       plugins: [autoprefixer()]
     }
   }
 }));
+
 
 const injectEruda = (serve: boolean) => serve ? (<PluginOption>{
   name: 'erudaInjector',
@@ -129,3 +112,6 @@ const injectEruda = (serve: boolean) => serve ? (<PluginOption>{
     ]
   })
 }) : [];
+
+
+

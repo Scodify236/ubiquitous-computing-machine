@@ -1,6 +1,6 @@
 export const img = <HTMLImageElement>document.getElementById('img');
 
-export const rhIcon = <HTMLElement>document.getElementById('rhIcon')
+export const raagIcon = <HTMLElement>document.getElementById('raagIcon')
 
 export const title = <HTMLAnchorElement>document.getElementById('title');
 
@@ -36,7 +36,7 @@ export const favIcon = <HTMLLabelElement>favButton.nextElementSibling;
 
 export const listBtnsContainer = <HTMLSpanElement>document.getElementById('listTools');
 
-export const [playAllBtn, enqueueBtn, importListBtn, subscribeListBtn, openInYtBtn, clearListBtn, removeFromListBtn, deleteCollectionBtn, renameCollectionBtn, shareCollectionBtn] = <HTMLCollectionOf<HTMLButtonElement>>listBtnsContainer.children;
+export const [playAllBtn, enqueueBtn, importListBtn, subscribeListBtn, openInYtBtn, clearListBtn, removeFromListBtn, deleteCollectionBtn, renameCollectionBtn, shareCollectionBtn, radioCollectionBtn, sortCollectionBtn] = <HTMLCollectionOf<HTMLButtonElement>>listBtnsContainer.children;
 
 export const loadingScreen = <HTMLDialogElement>document.getElementById('loadingScreen');
 loadingScreen.addEventListener('click', () => loadingScreen.close());
