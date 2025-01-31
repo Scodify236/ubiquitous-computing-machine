@@ -15,7 +15,7 @@ export default async function() {
     store.api.piped[0] = pi;
     store.api.invidious[0] = iv;
 
-  } else await fetch('https://raw.githubusercontent.com/Shashwat-CODING/Shashwat-CODER-Music/refs/heads/main/list.json')
+  } else await fetch('https://raw.githubusercontent.com/n-ce/Uma/main/dynamic_instances.json')
     .then(res => res.json())
     .then(data => {
       store.api.piped = data.piped;
