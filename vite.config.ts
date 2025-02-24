@@ -1,22 +1,47 @@
 import { defineConfig, PluginOption } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import autoprefixer from 'autoprefixer';
 import solidPlugin from 'vite-plugin-solid';
+import autoprefixer from 'autoprefixer';
+import { resolve } from 'path';
+import { readdirSync } from 'fs';
+
+// Define injectEruda only once
+const injectEruda = (): PluginOption => ({
+  name: 'erudaInjector',
+  transformIndexHtml: html => ({
+    html,
+    tags: [
+      {
+        tag: 'script',
+        attrs: {
+          src: '/node_modules/eruda/eruda'
+        },
+        injectTo: 'body-prepend'
+      },
+      {
+        tag: 'script',
+        injectTo: 'body-prepend',
+        children: 'eruda.init()'
+      }
+    ]
+  })
+});
 
 export default defineConfig(({ command }) => ({
   define: {
+    Locales: JSON.stringify(readdirSync(resolve(__dirname, './src/locales')).map(file => file.slice(0, 2))),
     Version: JSON.stringify(
       ((today = new Date()) => `${process.env.npm_package_version} (${today.getDate()} ${today.toLocaleString('default', { month: 'short' })} ${today.getFullYear()})`)()
     ),
   },
   plugins: [
-    injectEruda(command === 'serve'),
+    ...(command === 'serve' ? [injectEruda()] : []),
     solidPlugin(),
     VitePWA({
       manifest: {
-        "short_name": "Raag Heaven",
-        "name": "Listen with Raag Heaven",
-        "description": "64kb/s to 128kb/s youtube audio streaming website. Copy a youtube video link and listen to it as an audio totally free.",
+        "short_name": "Ytify",
+        "name": "Listen with ytify",
+        "description": "32kb/s to 128kb/s youtube audio streaming website. Copy a youtube video link and listen to it as an audio totally free.",
         "icons": [
           {
             "src": "logo192.png",
@@ -44,7 +69,7 @@ export default defineConfig(({ command }) => ({
             "icons": [
               {
                 "src": "memories-fill.png",
-                "sizes": "192x192",
+                "sizes": "192x192"
               }]
           },
           {
@@ -53,7 +78,7 @@ export default defineConfig(({ command }) => ({
             "icons": [
               {
                 "src": "heart-fill.png",
-                "sizes": "192x192",
+                "sizes": "192x192"
               }]
           },
           {
@@ -62,7 +87,7 @@ export default defineConfig(({ command }) => ({
             "icons": [
               {
                 "src": "calendar-schedule-fill.png",
-                "sizes": "192x192",
+                "sizes": "192x192"
               }]
           }
         ],
@@ -86,32 +111,14 @@ export default defineConfig(({ command }) => ({
   ],
   css: {
     postcss: {
-      plugins: [autoprefixer()]
+      plugins: [
+        autoprefixer(),
+      ]
     }
-  }
+  },
+  server: {
+    port: 14000, // Set Vite to use Tauri's expected port
+    strictPort: true, // Prevent fallback
+  },
+  clearScreen: false,
 }));
-
-
-const injectEruda = (serve: boolean) => serve ? (<PluginOption>{
-  name: 'erudaInjector',
-  transformIndexHtml: html => ({
-    html,
-    tags: [
-      {
-        tag: 'script',
-        attrs: {
-          src: '/node_modules/eruda/eruda'
-        },
-        injectTo: 'body-prepend'
-      },
-      {
-        tag: 'script',
-        injectTo: 'body-prepend',
-        children: 'eruda.init()'
-      }
-    ]
-  })
-}) : [];
-
-
-
