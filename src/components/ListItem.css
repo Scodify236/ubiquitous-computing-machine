@@ -1,15 +1,15 @@
 .listItem {
   width: 48%;
   height: auto;
-  background-color: var(--onBg);
+  background-color: transparent;
   padding: 1dvmin;
   margin: 2% 1%;
-  border: var(--border);
+  border: 0;
   border-radius: calc(var(--roundness) + 0.75vmin);
   transition: all 0.3s ease-out;
   display: inline-block;
 
-  @media(orientation:landscape) {
+  @media(orientation: landscape) {
     width: 23%;
   }
 
@@ -28,11 +28,10 @@
     }
   }
 
-
   img {
     height: auto;
     width: 100%;
-    border-radius: var(--roundness);
+    border-radius: 50%;
     margin-bottom: 2vmin;
   }
 
@@ -59,5 +58,4 @@
     height: 1rem;
     line-height: 1rem;
   }
-
 }

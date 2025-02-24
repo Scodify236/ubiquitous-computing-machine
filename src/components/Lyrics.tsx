@@ -16,7 +16,7 @@ export default function Lyrics() {
       `https://lrclib.net/api/get?track_name=${store.actionsMenu.title}&artist_name=${store.actionsMenu.author.slice(0, -8)}`,
       {
         headers: {
-          'Lrclib-Client': `Raag ${Version.substring(0, 3)} (https://github.com/n-ce/ytify)`
+          'Lrclib-Client': `ytify ${Version.substring(0, 3)} (https://github.com/n-ce/ytify)`
         }
       })
       .then(res => res.json())
@@ -37,6 +37,9 @@ export default function Lyrics() {
           );
           store.lrcSync = (d: number) => {
             const i = durarr.findIndex(da => Math.abs(da - d) < 1);
+            if (i + 1 === durarr.length)
+              return dialog.click();
+
             if (i < 0 || active() === i)
               return;
             dialog
@@ -64,6 +67,7 @@ export default function Lyrics() {
       onclick={() => {
         dialog.close();
         dialog.remove();
+        store.lrcSync = () => '';
       }}
     >
       <section>

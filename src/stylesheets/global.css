@@ -8,6 +8,8 @@
 @import 'library.css';
 @import 'list.css';
 @import 'snackbar.css';
+/* @import 'open-props/normalize.min.css';*/
+
 
 :root {
   --bg: transparent;
@@ -127,15 +129,27 @@ a {
   --text: #eaa;
 }
 
-.filter {
+.filter_lt10 {
   --defaultBg: #055;
   --defaultText: #6dd;
+}
+
+.filter_ytm {
+  --defaultBg: #502;
+  --defaultText: #f9a;
 }
 
 .checked {
   --defaultBg: #505;
   --defaultText: #faf;
 }
+
+.redup {
+  --defaultBg: #550;
+  --defaultText: #ffa;
+}
+
+
 
 #queuetools,
 #listTools,
@@ -200,13 +214,21 @@ dialog.watcher {
   height: 100dvh;
   width: 100dvw;
   background: var(--bg);
+  color: var(--text);
+
   button {
-    color: var(--text);
+    color: inherit;
   }
+
   video {
     width: 100%;
     max-width: 100vmin;
     border-radius: var(--roundness);
+  }
+
+  select {
+    width: 7ch;
+    margin-left: 1ch;
   }
 }
 
@@ -230,6 +252,10 @@ dialog.watcher {
 
   #queuetools {
     width: calc(92% + 3vmin);
+
+    button::after {
+      content: attr(aria-label);
+    }
   }
 }
 

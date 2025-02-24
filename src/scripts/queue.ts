@@ -1,4 +1,4 @@
-import { goTo, removeSaved, save } from "../lib/utils";
+import { goTo, i18n, notify, removeSaved, save } from "../lib/utils";
 import { queuelist } from "../lib/dom";
 import player from "../lib/player";
 import StreamItem from "../components/StreamItem";
@@ -11,6 +11,8 @@ const [
   shuffleQBtn,
   removeQBtn,
   filterLT10Btn,
+  filterYTMBtn,
+  allowDuplicatesBtn,
   enqueueRelatedStreamsBtn
 ] = (<HTMLSpanElement>document.getElementById('queuetools')).children as HTMLCollectionOf<HTMLButtonElement>;
 
@@ -19,8 +21,18 @@ export const firstItemInQueue = () => <HTMLElement>queuelist.firstElementChild;
 export function appendToQueuelist(data: DOMStringMap | CollectionItem, prepend: boolean = false) {
   if (!data.id) return;
 
-  if (filterLT10Btn.classList.contains('filter'))
+  const { queue } = store;
+
+  if (!allowDuplicatesBtn.classList.contains('redup'))
+    if (queue.includes(data.id))
+      return;
+
+  if (filterLT10Btn.classList.contains('filter_lt10'))
     if (isLongerThan10Min(<string>data.duration))
+      return;
+
+  if (filterYTMBtn.classList.contains('filter_ytm'))
+    if (!data.author?.endsWith('- Topic'))
       return;
 
   if (firstItemInQueue()?.matches('h1')) firstItemInQueue().remove();
@@ -28,9 +40,10 @@ export function appendToQueuelist(data: DOMStringMap | CollectionItem, prepend: 
   if (removeQBtn.classList.contains('delete'))
     removeQBtn.click();
 
-  prepend ?
-    store.queue.unshift(data.id) :
-    store.queue.push(data.id);
+  if (prepend)
+    queue.unshift(data.id);
+  else
+    queue.push(data.id);
 
 
   const fragment = document.createDocumentFragment();
@@ -43,8 +56,9 @@ export function appendToQueuelist(data: DOMStringMap | CollectionItem, prepend: 
     draggable: true
   }), fragment);
 
-  prepend ?
-    queuelist.prepend(fragment) :
+  if (prepend)
+    queuelist.prepend(fragment);
+  else
     queuelist.appendChild(fragment);
 
 }
@@ -64,15 +78,13 @@ queuelist.addEventListener('click', e => {
       sessionStorage.setItem('trashHistory', current + id);
   }
 
-  queueItem.classList.contains('delete') ?
-    addToTrash() :
-    player(id);
+  if (queueItem.classList.contains('delete'))
+    addToTrash();
+  else player(id);
 
   const index = store.queue.indexOf(id);
 
-
   store.queue.splice(index, 1);
-
   queuelist.children[index].remove();
 });
 
@@ -113,12 +125,37 @@ removeQBtn.addEventListener('click', () => {
   removeQBtn.classList.toggle('delete');
 });
 
+const actions: [HTMLButtonElement, string, string][] = [
+  [filterLT10Btn, 'filterLT10', 'filter_lt10'],
+  [filterYTMBtn, 'filterYTM', 'filter_ytm'],
+  [enqueueRelatedStreamsBtn, 'enqueueRelatedStreams', 'checked'],
+  [allowDuplicatesBtn, 'allowDuplicates', 'redup']
+];
+
+actions.forEach(_ => {
+  const [btn, ls, clss] = _;
+
+  btn.addEventListener('click', () => {
+
+    if (btn.classList.contains(clss))
+      removeSaved(ls);
+    else
+      save(ls, 'on');
+
+    btn.classList.toggle(clss);
+
+    if (ls === 'filterLT10')
+      filterLT10();
+    else
+      notify(i18n('upcoming_change'));
+  });
+
+  if (getSaved(ls) === 'on')
+    btn.className = clss;
+});
 
 
-
-filterLT10Btn.addEventListener('click', () => {
-
-  filterLT10Btn.classList.toggle('filter');
+function filterLT10() {
   // Prevent Queue Conflicts
   if (removeQBtn.classList.contains('delete'))
     removeQBtn.click();
@@ -132,18 +169,7 @@ filterLT10Btn.addEventListener('click', () => {
     el.click()
 
   });
-});
-
-
-enqueueRelatedStreamsBtn.addEventListener('click', () => {
-  enqueueRelatedStreamsBtn.classList.contains('checked') ?
-    removeSaved('enqueueRelatedStreams') :
-    save('enqueueRelatedStreams', 'on');
-  enqueueRelatedStreamsBtn.classList.toggle('checked');
-});
-
-if (getSaved('enqueueRelatedStreams') === 'on')
-  enqueueRelatedStreamsBtn.className = 'checked';
+}
 
 
 function isLongerThan10Min(duration: string) {
@@ -153,27 +179,6 @@ function isLongerThan10Min(duration: string) {
     parseInt(hhmmss[0]) < 10
   );
 }
-
-// queuelist mutation observer
-
-new MutationObserver(m => {
-  for (const mutation of m) {
-    if (mutation.type === "childList") {
-      const query = store.queue.join('');
-      store.upcomingQuery = query;
-
-      if (location.pathname === '/upcoming') {
-        history.replaceState({}, '',
-          location.pathname + (
-            query ?
-              `?a=${query}` : ''
-          )
-        );
-      }
-    }
-  }
-}).observe(queuelist, { childList: true });
-
 
 new Sortable(queuelist, {
   handle: '.ri-draggable',

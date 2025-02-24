@@ -1,6 +1,6 @@
 import { loadingScreen, searchFilters, searchlist, superInput } from "../lib/dom";
 import player from "../lib/player";
-import { $, errorHandler, getApi, idFromURL, superClick } from "../lib/utils";
+import {errorHandler, idFromURL, superClick } from "../lib/utils";
 import { store, getSaved } from "../lib/store";
 import { getSearchResults } from "../modules/fetchSearchResults";
 
@@ -31,13 +31,12 @@ function searchLoader() {
     searchFilters.value
   )
     .catch(err => {
-      if (useInvidious || err.message === 'nextpage error') return;
+      if (useInvidious && store.api.index >= store.api.invidious.length)
+        store.api.index = -1;
 
-      errorHandler(
-        err.message,
-        searchLoader,
-        () => ''
-      )
+      if (err.message === 'nextpage error') return;
+
+      errorHandler(err.message, searchLoader);
     })
     .finally(() => loadingScreen.close());
 
@@ -60,44 +59,6 @@ superInput.addEventListener('input', async () => {
     prevID = id;
     return;
   }
-  if (getSaved('search_suggestions')) return;
-
-  suggestions.innerHTML = '';
-  suggestions.style.display = 'none';
-
-  if (text.length < 3) return;
-
-  suggestions.style.display = 'block';
-
-  const fetchSuggestions = async () => fetch(getApi('piped') + '/opensearch/suggestions/?query=' + text)
-    .then(res => res.json())
-    .catch(() =>
-      errorHandler(
-        '',
-        fetchSuggestions,
-        () => ''
-      )
-    );
-
-  const data = (await fetchSuggestions())[1];
-
-  if (!data.length) return;
-
-  const fragment = document.createDocumentFragment();
-
-  for (const suggestion of data) {
-    const li = $('li');
-    li.textContent = suggestion;
-    li.onclick = () => {
-      superInput.value = suggestion;
-      searchLoader();
-    }
-    fragment.appendChild(li);
-  }
-  suggestions.appendChild(fragment);
-
-
-  index = 0;
 
 });
 

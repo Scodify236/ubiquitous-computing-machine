@@ -3,17 +3,24 @@ import { convertSStoHHMMSS } from "./utils";
 import { params, store, getSaved } from "./store";
 import { setMetaData } from "../modules/setMetadata";
 import { getDB } from "./libraryUtils";
-import { getData } from "../modules/getStreamData";
+import getStreamData from "../modules/getStreamData";
+import { render } from "solid-js/web";
 
 export default async function player(id: string | null = '') {
 
   if (!id) return;
 
+  if (getSaved('watchMode')) {
+    store.actionsMenu.id = id;
+    import('../components/WatchOnYtify')
+      .then(mod => render(mod.default, document.body));
+    return;
+  }
+
   playButton.classList.replace(playButton.className, 'ri-loader-3-line');
   title.textContent = 'Fetching Data...';
 
-  const data = await getData(id);
-  const h = store.player.HLS;
+  const data = await getStreamData(id);
 
   if (data && 'audioStreams' in data)
     store.player.data = data;
@@ -36,24 +43,19 @@ export default async function player(id: string | null = '') {
     audio.load();
   }
   else {
-    if (h) {
-      const hlsUrl = store.player.hlsCache.shift();
-      if (hlsUrl)
-        h.loadSource(hlsUrl);
-
+    const h = store.player.hls;
+    if (h.on) {
+      const hlsUrl = h.manifests.shift();
+      if (hlsUrl) h.src(hlsUrl);
     }
     else import('../modules/setAudioStreams')
-      .then(mod => mod.setAudioStreams(
+      .then(mod => mod.default(
         data.audioStreams
           .sort((a: { bitrate: string }, b: { bitrate: string }) => (parseInt(a.bitrate) - parseInt(b.bitrate))
           ),
         data.livestream
       ));
   }
-
-  if (data.subtitles?.length)
-  import('../modules/setSubtitles')
-    .then(mod => mod.setSubtitles(data.subtitles));
 
 
   params.set('s', id);
@@ -65,7 +67,7 @@ export default async function player(id: string | null = '') {
 
   if (getSaved('enqueueRelatedStreams') === 'on')
     import('../modules/enqueueRelatedStreams')
-      .then(mod => mod.enqueueRelatedStreams(data.relatedStreams as StreamItem[]));
+      .then(mod => mod.default(data.relatedStreams as StreamItem[]));
 
 
   // favbutton reset
@@ -88,7 +90,7 @@ export default async function player(id: string | null = '') {
     import('../modules/setDiscoveries')
       .then(mod => {
         setTimeout(() => {
-          mod.setDiscoveries(id, data.relatedStreams as StreamItem[]);
+          mod.default(id, data.relatedStreams as StreamItem[]);
         }, 1e5);
       });
 

@@ -1,6 +1,6 @@
 export const img = <HTMLImageElement>document.getElementById('img');
 
-export const raagIcon = <HTMLElement>document.getElementById('raagIcon')
+export const ytifyIcon = <HTMLElement>document.getElementById('ytifyIcon')
 
 export const title = <HTMLAnchorElement>document.getElementById('title');
 
@@ -26,7 +26,7 @@ export const queuelist = <HTMLElement>document.getElementById('queuelist');
 
 export const listSection = <HTMLDivElement>document.getElementById('list');
 
-export const listContainer = <HTMLDivElement>document.getElementById('playlist');
+export const listContainer = <HTMLDivElement>document.getElementById('listContainer');
 
 export const listAnchor = <HTMLAnchorElement>document.getElementById('/list');
 
@@ -43,10 +43,6 @@ loadingScreen.addEventListener('click', () => loadingScreen.close());
 
 export const bitrateSelector = <HTMLSelectElement>document.getElementById('bitrateSelector');
 
-export const subtitleTrack = <HTMLTrackElement>audio.firstElementChild;
-
-export const subtitleContainer = <HTMLDivElement>document.getElementById('subtitleContainer');
-
-export const subtitleSelector = <HTMLSelectElement>document.getElementById('subtitleSelector');
-
 export const superCollectionSelector = document.getElementById('superCollectionSelector') as HTMLDivElement;
+
+export const superCollectionList = document.getElementById('superCollectionList') as HTMLDivElement;

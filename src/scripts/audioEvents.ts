@@ -1,11 +1,11 @@
 import { audio, listAnchor, playButton, progress, queuelist, title } from "../lib/dom";
 import player from "../lib/player";
-import { convertSStoHHMMSS, getDownloadLink, goTo, notify, removeSaved, save } from "../lib/utils";
+import { convertSStoHHMMSS, goTo, removeSaved, save } from "../lib/utils";
 import { getSaved, params, store } from "../lib/store";
 import { appendToQueuelist, firstItemInQueue } from "./queue";
 import { addToCollection, getCollection } from "../lib/libraryUtils";
-import { getData } from "../modules/getStreamData";
-
+import audioErrorHandler from "../modules/audioErrorHandler";
+import getStreamData from "../modules/getStreamData";
 
 const playSpeed = <HTMLSelectElement>document.getElementById('playSpeed');
 const seekBwdButton = <HTMLButtonElement>document.getElementById('seekBwdButton');
@@ -21,23 +21,23 @@ const volumeIcon = <HTMLLabelElement>volumeChanger.previousElementSibling;
 
 const msn = 'mediaSession' in navigator;
 function updatePositionState() {
-  if (msn)
-    if ('setPositionState' in navigator.mediaSession)
-      navigator.mediaSession.setPositionState({
-        duration: audio.duration,
-        playbackRate: audio.playbackRate,
-        position: audio.currentTime,
-      });
+  if (msn && 'setPositionState' in navigator.mediaSession)
+    navigator.mediaSession.setPositionState({
+      duration: audio.duration,
+      playbackRate: audio.playbackRate,
+      position: Math.floor(audio.currentTime),
+    });
 }
 
 
-
 playButton.onclick = function() {
-  if (!store.stream.id) return;
-  store.player.playbackState === 'playing' ?
-    audio.pause() :
+  if (
+    store.stream.id &&
+    store.player.playbackState === 'playing'
+  )
+    audio.pause();
+  else
     audio.play();
-
 }
 
 
@@ -91,7 +91,7 @@ const playableCheckerID = setInterval(() => {
 }, 500);
 
 
-audio.onloadeddata = function() {
+audio.onloadstart = function() {
   playButton.classList.replace('ri-loader-3-line', 'ri-play-circle-fill');
   if (isPlayable) audio.play();
   historyID = store.stream.id;
@@ -107,8 +107,6 @@ audio.onloadeddata = function() {
 audio.onwaiting = function() {
   playButton.classList.replace(playButton.className, 'ri-loader-3-line');
 }
-
-
 
 
 playSpeed.onchange = function() {
@@ -154,7 +152,7 @@ audio.ontimeupdate = function() {
   store.lrcSync(seconds);
   progress.value = seconds.toString();
   currentDuration.textContent = convertSStoHHMMSS(seconds);
-
+  updatePositionState();
 }
 
 
@@ -171,50 +169,10 @@ audio.oncanplaythrough = function() {
   // prefetch beforehand to speed up experience
   const nextItem = store.queue[0];
   if (nextItem)
-    getData(nextItem, true);
+    getStreamData(nextItem, true);
 }
 
-audio.onerror = function() {
-  audio.pause();
-  const id = store.stream.id;
-  const message = 'Error 403 : Unauthenticated Stream';
-
-  if (getSaved('custom_instance_2'))
-    return notify(message);
-
-  if (store.player.HLS) {
-    notify(message);
-    player(id);
-    return;
-  }
-
-
-  const origin = new URL(audio.src).origin;
-
-  if (store.api.index < store.api.invidious.length) {
-    const proxy = store.api.invidious[store.api.index];
-    title.textContent = `Switching proxy to ${proxy.slice(8)}`;
-    audio.src = audio.src.replace(origin, proxy);
-    store.api.index++;
-  }
-  else {
-    store.api.index = 0;
-    notify(message);
-    title.textContent = store.stream.title;
-
-    getDownloadLink(store.stream.id)
-      .then(_ => {
-        if (_)
-          audio.src = _;
-        else throw new Error();
-      })
-      .catch(() => {
-        playButton.classList.replace(playButton.className, 'ri-stop-circle-fill');
-      })
-
-  }
-
-}
+audio.onerror = audioErrorHandler;
 
 
 loopButton.onclick = function() {
@@ -223,8 +181,7 @@ loopButton.onclick = function() {
 }
 
 
-
-playPrevButton.onclick = function() {
+function prev() {
   if (store.streamHistory.length > 1) {
     appendToQueuelist(store.stream, true);
     store.streamHistory.pop();
@@ -232,6 +189,7 @@ playPrevButton.onclick = function() {
   }
 }
 
+playPrevButton.onclick = prev;
 
 
 function onEnd() {
@@ -297,6 +255,10 @@ if (msn) {
   });
   navigator.mediaSession.setActionHandler("nexttrack", () => {
     onEnd();
+    updatePositionState();
+  });
+  navigator.mediaSession.setActionHandler("previoustrack", () => {
+    prev();
     updatePositionState();
   });
 }

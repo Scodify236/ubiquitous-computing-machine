@@ -1,31 +1,27 @@
 import player from '../lib/player';
 import { getSaved, params, store } from '../lib/store';
-import { $, getDownloadLink, idFromURL, proxyHandler } from '../lib/utils';
-import { bitrateSelector, searchFilters, superInput, audio, loadingScreen, raagIcon, searchlist } from '../lib/dom';
+import { $, getDownloadLink, i18n, idFromURL, proxyHandler } from '../lib/utils';
+import { bitrateSelector, searchFilters, superInput, audio, loadingScreen, ytifyIcon, searchlist } from '../lib/dom';
 import fetchList from '../modules/fetchList';
 import { fetchCollection } from "../lib/libraryUtils";
+import { itemsLoader } from '../lib/utils';
 
 export default async function() {
 
-  const custom_instance = getSaved('custom_instance_2');
+  const custom_instance = getSaved('custom_instance');
 
   if (custom_instance) {
 
-    const [pi, iv] = custom_instance.split(',');
-    store.api.piped[0] = pi;
+    const [pi, iv, useInvidious] = custom_instance.split(',');
+    store.player.hls.api[0] =
+      store.api.piped[0] = pi;
     store.api.invidious[0] = iv;
+    store.player.usePiped = !useInvidious;
 
-  } else await fetch('https://raw.githubusercontent.com/n-ce/Uma/main/dynamic_instances.json')
-    .then(res => res.json())
-    .then(data => {
-      store.api.piped = data.piped;
-      store.api.invidious = data.invidious;
-      store.api.hyperpipe = data.hyperpipe;
-      store.player.fallback = location.origin;
-    });
+  };
 
 
-  if (getSaved('HLS')) {
+  if (store.player.hls.on) {
     // handling bitrates with HLS will increase complexity, better to detach from DOM
     bitrateSelector.remove();
     if (store.player.legacy) return;
@@ -49,7 +45,7 @@ export default async function() {
   const id = params.get('s') || isPWA;
   let shareAction = getSaved('shareAction');
   if (isPWA && shareAction === 'ask')
-    shareAction = confirm('Click ok to Play, click cancel to Download') ?
+    shareAction = confirm(i18n('pwa_share_prompt')) ?
       '' : 'dl';
 
   if (id) {
@@ -66,16 +62,16 @@ export default async function() {
 
     loadingScreen.close();
   }
-  else document.getElementById('raagIconContainer')?.prepend(raagIcon);
+  else document.getElementById('ytifyIconContainer')?.prepend(ytifyIcon);
   if (params.has('q')) {
     superInput.value = params.get('q') || '';
     if (params.has('f'))
       searchFilters.value = params.get('f') || '';
     superInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Enter' }));
   }
-  else fetch(location.origin + '/landing')
-    .then(_ => _.text())
-    .then(_ => searchlist.innerHTML = _.startsWith('<!') ? '' : _);
+  else fetch('https://raw.githubusercontent.com/Studyleague01/srpay/refs/heads/main/sorted_vid.json')
+  .then(res => res.json())
+  .then(data => itemsLoader(data.items,searchlist));
 
 
 
