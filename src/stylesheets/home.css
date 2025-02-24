@@ -1,6 +1,5 @@
 #home {
-  height: 100%;
-  column-gap: 5vmin;
+  height: auto;
   gap: 5vmin;
   width: 100%;
   padding: 5%;

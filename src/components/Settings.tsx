@@ -128,7 +128,7 @@ export default function() {
               target.value = savedLinkHost;
           }}
         >
-          <option value="https://ytify.us.kg">ytify</option>
+          <option value="https://ytify.pp.ua">ytify</option>
           <option value="https://youtube.com">YouTube</option>
           <option value="https://piped.video">Piped</option>
           <option value="https://inv.nadeko.net">Invidious</option>
@@ -483,10 +483,10 @@ export default function() {
             }
           }}
         >
-          <option value="0.9rem">{i18n('settings_roundness_none')}</option>
-          <option value="0.9rem">{i18n('settings_roundness_lighter')}</option>
-          <option value="0.9rem" selected>{i18n('settings_roundness_light')}</option>
-          <option value="0.9rem">{i18n('settings_roundness_heavy')}</option>
+          <option value="none">{i18n('settings_roundness_none')}</option>
+          <option value="0.2rem">{i18n('settings_roundness_lighter')}</option>
+          <option value="0.4rem" selected>{i18n('settings_roundness_light')}</option>
+          <option value="0.6rem">{i18n('settings_roundness_heavy')}</option>
           <option value="0.9rem">{i18n('settings_roundness_heavier')}</option>
         </Selector>
 

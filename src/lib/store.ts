@@ -43,7 +43,7 @@ export const store: {
       on: Boolean(getSaved('HLS')),
       src: () => '',
       manifests: [],
-      api: ['https://backendmix-emergeny.vercel.app']
+      api: ['https://pipedapi.kavin.rocks']
     },
     hq: Boolean(getSaved('hq')),
     codec: 'opus',
@@ -69,7 +69,7 @@ export const store: {
   },
   streamHistory: [],
   api: {
-    piped: ['https://backendmix-emergeny.vercel.app'],
+    piped: ['https://pipedapi.kavin.rocks'],
     invidious: ['https://iv.ggtyler.dev'],
     hyperpipe: 'https://hyperpipeapi.onrender.com',
     index: 0
