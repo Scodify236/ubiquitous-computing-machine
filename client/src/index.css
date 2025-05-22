@@ -1,0 +1,417 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  /* Light mode variables */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 20 95% 48%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 20 95% 55%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 20 95% 55%;
+    --radius: 0.75rem;
+    --accent-orange: 20, 95%, 50%;
+    --accent-hover: 20, 95%, 45%;
+  }
+  
+  /* Dark mode variables */
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 210 40% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 20 95% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 20 95% 55%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 20 95% 50%;
+    --accent-orange: 20, 95%, 50%;
+    --accent-hover: 20, 95%, 45%;
+  }
+  
+  /* Theme-specific highlight classes */
+  .accent-highlight {
+    @apply text-amber-600;
+  }
+  
+  .dark .accent-highlight {
+    @apply text-orange-500;
+  }
+  
+  /* Theme-specific interactive elements */
+  .accent-interactive {
+    @apply hover:text-amber-600 transition-colors duration-200;
+  }
+  
+  .dark .accent-interactive {
+    @apply hover:text-orange-500 transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  /* Improved custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #c7c7c7;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a6a6a6;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: #4d4d4d;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background-color: #636363;
+  }
+  
+  /* Option to hide scrollbar when needed */
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Fade in up animation for install prompt */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+  
+  /* Performance optimizations */
+  .hardware-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+  }
+  
+  /* YouTube-style smooth transitions */
+  .smooth-transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Improve native HTML elements */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  /* YouTube-style range inputs with orange accent */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #ff7b00;
+    margin-top: -5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #ff7b00;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  input[type="range"]::-webkit-slider-runnable-track {
+    background: #e5e5e5;
+    height: 4px;
+    border-radius: 2px;
+  }
+  
+  .dark input[type="range"]::-webkit-slider-runnable-track {
+    background: #4d4d4d;
+  }
+  
+  input[type="range"]::-moz-range-track {
+    background: #e5e5e5;
+    height: 4px;
+    border-radius: 2px;
+  }
+  
+  .dark input[type="range"]::-moz-range-track {
+    background: #4d4d4d;
+  }
+  
+  /* YouTube progress gradient effect */
+  .youtube-progress-bar {
+    position: relative;
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e5e5;
+    overflow: hidden;
+  }
+  
+  .dark .youtube-progress-bar {
+    background: #4d4d4d;
+  }
+  
+  .youtube-progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--progress, 0%);
+    background: #ff7b00;
+    border-radius: 2px;
+  }
+  
+  /* Custom styling for progress element */
+  progress {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  progress::-webkit-progress-bar {
+    background-color: hsl(var(--muted));
+    border-radius: 2px;
+  }
+  
+  progress::-webkit-progress-value {
+    background-color: hsl(var(--primary));
+    border-radius: 2px;
+  }
+  
+  .dark progress::-webkit-progress-value {
+    background-color: hsl(var(--accent-orange));
+    border-radius: 2px;
+  }
+  
+  progress::-moz-progress-bar {
+    background-color: hsl(var(--primary));
+    border-radius: 2px;
+  }
+  
+  .dark progress::-moz-progress-bar {
+    background-color: hsl(var(--accent-orange));
+    border-radius: 2px;
+  }
+  
+  /* Simple smooth pulse animation */
+  @keyframes smooth-pulse {
+    0% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.9; transform: scale(1); }
+  }
+  
+  .play-button-pulse {
+    animation: smooth-pulse 2s infinite ease-in-out;
+  }
+  
+  /* Subtle background pulse for hero sections */
+  @keyframes subtle-pulse {
+    0% { opacity: 0.9; }
+    50% { opacity: 1; }
+    100% { opacity: 0.9; }
+  }
+  
+  .animate-subtle-pulse {
+    animation: subtle-pulse 8s infinite ease-in-out;
+  }
+  
+  /* Gentle bounce animation */
+  @keyframes gently-bounce {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-5px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(-3px); }
+  }
+  
+  .animate-gently-bounce {
+    animation: gently-bounce 3s ease-in-out infinite;
+  }
+  
+  /* Shimmer effect for premium elements */
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.1), 
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+  
+  /* Enhanced Audio Player Styles */
+  .player-gradient-button {
+    background: linear-gradient(135deg, #ff7b00, #ff5500);
+    box-shadow: 0 6px 16px -8px rgba(255, 123, 0, 0.4);
+    transition: all 0.2s ease;
+  }
+  
+  .player-gradient-button:hover {
+    background: linear-gradient(135deg, #ff5500, #ff4400);
+    box-shadow: 0 8px 20px -6px rgba(255, 123, 0, 0.5);
+    transform: translateY(-1px);
+  }
+  
+  .player-gradient-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 12px -6px rgba(255, 123, 0, 0.4);
+  }
+  
+  /* Play button pulse animation */
+  @keyframes play-button-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(255, 123, 0, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 123, 0, 0);
+    }
+  }
+  
+  .play-button-pulse {
+    animation: play-button-pulse 2s infinite;
+  }
+  
+  /* Custom range input styling for improved appearance */
+  input[type="range"] {
+    height: 14px;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  input[type="range"]:focus {
+    outline: none;
+  }
+  
+  /* Mobile-optimized player adjustments */
+  @media (max-width: 640px) {
+    input[type="range"]::-webkit-slider-thumb {
+      width: 12px;
+      height: 12px;
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  
+  /* Fullscreen player background enhancements */
+  .player-backdrop {
+    background-image: radial-gradient(
+      circle at center,
+      rgba(255, 123, 0, 0.03) 0%,
+      transparent 70%
+    );
+  }
+  
+  .dark .player-backdrop {
+    background-image: radial-gradient(
+      circle at center,
+      rgba(255, 123, 0, 0.05) 0%,
+      transparent 70%
+    );
+  }
+  
+  /* Material icons optimization */
+  .material-icons {
+    font-display: block; /* Improves rendering performance */
+    text-rendering: optimizeSpeed;
+  }
+  
+  /* Elegant Card Hover Effect */
+  .elegant-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .elegant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .elegant-card {
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark .elegant-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Overlay control button hover effect */
+  .overlay-control {
+    transition: all 0.15s ease;
+  }
+  
+  .overlay-control:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 123, 0, 0.9) !important;
+  }
+}

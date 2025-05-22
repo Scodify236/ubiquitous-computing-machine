@@ -1,0 +1,257 @@
+# Podcast Heaven API Documentation
+
+This document provides a comprehensive overview of the Podcast Heaven API endpoints, their functionality, parameters, and response formats.
+
+## Base URL
+
+```
+https://backendmix-emergeny.vercel.app
+```
+
+## API Endpoints
+
+### 1. Search Podcasts
+
+Search for podcasts across multiple channels based on keywords.
+
+**Endpoint:** `GET /search`
+
+**Query Parameters:**
+- `q` (required): Search query string
+
+**Response Format:**
+```json
+{
+  "items": [
+    {
+      "type": "stream",
+      "url": "/watch?v={videoId}",
+      "title": "Podcast Title",
+      "thumbnail": "https://pol1.piproxy.ggtyler.dev/vi/{videoId}?host=i.ytimg.com",
+      "uploaderName": "Channel Name",
+      "uploaderUrl": "/channel/{channelId}",
+      "uploadedDate": "ISO Date String",
+      "duration": 3600,
+      "views": 10000,
+      "uploaderVerified": false,
+      "shortDescription": "Brief description",
+      "uploaded": 1712345678,
+      "uploaderAvatar": null,
+      "isShort": false
+    }
+  ],
+  "message": "Success",
+  "code": "OK"
+}
+```
+
+**Error Responses:**
+- `400 Bad Request`: Missing query parameter
+- `404 Not Found`: No results found
+- `500 Internal Server Error`: Server error
+
+### 2. Get Audio Stream
+
+Retrieve audio stream information for a specific podcast episode.
+
+**Endpoint:** `GET /streams/{videoId}`
+
+**Path Parameters:**
+- `videoId` (required): Unique identifier for the podcast episode
+
+**Response Format:**
+```json
+{
+  "title": "Podcast Title",
+  "uploader": "Podcast heaven",
+  "uploaderUrl": "null",
+  "duration": 3600,
+  "audioStreams": [
+    {
+      "url": "https://example.com/audio/file.webm",
+      "quality": "320 kbps",
+      "mimeType": "audio/webm; codecs=\"opus\"",
+      "codec": "opus",
+      "bitrate": 145140,
+      "contentLength": 12345678,
+      "audioQuality": "AUDIO_QUALITY_HIGH"
+    }
+  ]
+}
+```
+
+**Error Responses:**
+- `404 Not Found`: Podcast episode not found
+- `403 Forbidden`: Age restricted content
+- `500 Internal Server Error`: Failed to fetch stream data
+
+### 3. Get Channel Information
+
+Retrieve information about a podcast channel.
+
+**Endpoint:** `GET /channel/{id}`
+
+**Path Parameters:**
+- `id` (required): Channel identifier
+
+**Response Format:**
+Response mirrors the format from the internal Piped API.
+
+**Error Response:**
+- `500 Internal Server Error`: Failed to fetch channel data
+
+### 4. Get More Channel Episodes
+
+Fetch additional episodes from a channel using pagination.
+
+**Endpoint:** `GET /nextpage/channel/{channelId}`
+
+**Path Parameters:**
+- `channelId` (required): Channel identifier
+
+**Query Parameters:**
+- `nextpage` (required): Pagination token retrieved from previous request
+
+**Response Format:**
+```json
+{
+  "nextpage": "base64EncodedPaginationToken",
+  "relatedStreams": [
+    {
+      "type": "stream",
+      "url": "/watch?v={videoId}",
+      "title": "Podcast Title",
+      "thumbnail": "https://pol1.piproxy.ggtyler.dev/vi/{videoId}?host=i.ytimg.com",
+      "uploaderName": "Channel Name",
+      "uploaderUrl": "/channel/{channelId}",
+      "uploaderAvatar": null,
+      "uploadedDate": "2 weeks ago",
+      "shortDescription": "Brief description",
+      "duration": 3600,
+      "views": 10000,
+      "uploaded": 1712345678,
+      "uploaderVerified": false,
+      "isShort": false
+    }
+  ],
+  "message": "Success",
+  "code": "OK"
+}
+```
+
+**Error Responses:**
+- `400 Bad Request`: Missing nextpage parameter
+- `500 Internal Server Error`: Failed to fetch videos
+
+### 5. Featured Podcasts
+
+Get popular podcasts from all available channels.
+
+**Endpoint:** `GET /featured`
+
+**Response Format:**
+```json
+{
+  "items": [
+    {
+      "type": "stream",
+      "url": "/watch?v={videoId}",
+      "title": "Podcast Title",
+      "thumbnail": "https://pol1.piproxy.ggtyler.dev/vi/{videoId}?host=i.ytimg.com",
+      "uploaderName": "Channel Name",
+      "uploaderUrl": "/channel/{channelId}",
+      "uploadedDate": "ISO Date String",
+      "duration": 3600,
+      "views": 10000,
+      "uploaderVerified": false,
+      "shortDescription": "Brief description",
+      "uploaded": 1712345678,
+      "uploaderAvatar": null,
+      "isShort": false
+    }
+  ],
+  "totalItems": 50,
+  "message": "Success",
+  "code": "OK"
+}
+```
+
+**Error Responses:**
+- `404 Not Found`: No featured podcasts found
+- `500 Internal Server Error`: Failed to fetch featured podcasts
+
+### 6. Newest Podcasts
+
+Get the latest podcasts sorted by view count.
+
+**Endpoint:** `GET /newest`
+
+**Response Format:**
+```json
+{
+  "items": [
+    {
+      "type": "stream",
+      "url": "/watch?v={videoId}",
+      "title": "Podcast Title",
+      "thumbnail": "https://pol1.piproxy.ggtyler.dev/vi/{videoId}?host=i.ytimg.com",
+      "uploaderName": "Channel Name",
+      "uploaderUrl": "/channel/{channelId}",
+      "uploadedDate": "ISO Date String",
+      "duration": 3600,
+      "views": 10000,
+      "uploaderVerified": false,
+      "shortDescription": "Brief description",
+      "uploaded": 1712345678,
+      "uploaderAvatar": null,
+      "isShort": false
+    }
+  ],
+  "totalItems": 20,
+  "message": "Success",
+  "code": "OK"
+}
+```
+
+**Error Responses:**
+- `404 Not Found`: No new podcasts found
+- `500 Internal Server Error`: Failed to fetch new podcasts
+
+### 7. Health Check
+
+Check the API's operational status.
+
+**Endpoint:** `GET /health`
+
+**Response Format:**
+```json
+{
+  "status": "OK",
+  "timestamp": "2025-04-05T12:00:00.000Z",
+  "currentApiKey": "Key 1 of 4"
+}
+```
+
+## Filter Criteria
+
+All podcast episodes returned by the API meet the following criteria:
+- Minimum duration of 120 seconds (2 minutes)
+- Not age-restricted
+- Valid metadata (title, URL, duration)
+
+## Rate Limiting and API Keys
+
+The API uses multiple API keys with automatic rotation to handle quota limitations. If you encounter quota errors, the API will automatically try alternative keys.
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| `MISSING_QUERY` | Search query parameter is missing |
+| `NO_RESULTS` | No results found for the query |
+| `INTERNAL_ERROR` | Server-side error occurred |
+| `AGE_RESTRICTED_VIDEO` | Content is age restricted |
+| `MISSING_NEXTPAGE` | Pagination token is missing |
+| `QUOTA_EXCEEDED` | All API keys have exceeded their quota |
+| `UNHANDLED_ERROR` | Unexpected error occurred |
+| `NO_VIDEOS` | No videos found for the request |

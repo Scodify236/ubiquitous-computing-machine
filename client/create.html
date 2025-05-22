@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Podcast | Cryptune</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #0f0f0f;
+        }
+        .dark-mode {
+            background-color: #0f0f0f;
+            color: #f9f9f9;
+        }
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .dark-mode header {
+            background-color: #0f0f0f;
+            border-bottom: 1px solid #272727;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo span {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .logo span:first-child {
+            color: #0f0f0f;
+        }
+        .dark-mode .logo span:first-child {
+            color: #fff;
+        }
+        .logo span:last-child {
+            color: #ff7b00;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+        .upload-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .dark-mode .upload-container {
+            background-color: #212121;
+            box-shadow: 0 1px 2px rgba(255, 255, 255, 0.05);
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .upload-area:hover {
+            background-color: #f8f8f8;
+        }
+        .dark-mode .upload-area:hover {
+            background-color: #272727;
+        }
+        .dark-mode .upload-area {
+            border-color: #444;
+        }
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #ff7b00;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #fff;
+        }
+        .dark-mode input, .dark-mode textarea {
+            background-color: #272727;
+            border-color: #444;
+            color: #fff;
+        }
+        button {
+            background-color: #ff7b00;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 16px;
+        }
+        button:hover {
+            background-color: #e56f00;
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            color: #0f0f0f;
+        }
+        .dark-mode .theme-toggle {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <span>Crypt</span><span>une</span>
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    </header>
+
+    <div class="container">
+        <h1>Create New Podcast</h1>
+        
+        <div class="upload-container">
+            <div class="upload-area" onclick="document.getElementById('file-upload').click()">
+                <div class="upload-icon">📤</div>
+                <p>Drag and drop audio files or click to upload</p>
+                <p style="font-size: 14px; color: #666; margin-top: 8px;">Supported formats: MP3, WAV, M4A</p>
+                <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+            </div>
+            
+            <form id="podcast-form">
+                <div class="form-group">
+                    <label for="title">Podcast Title</label>
+                    <input type="text" id="title" name="title" placeholder="Enter a descriptive title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Tell listeners what your podcast is about"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" id="category" name="category" placeholder="e.g. Technology, Education, Entertainment">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tags">Tags (comma-separated)</label>
+                    <input type="text" id="tags" name="tags" placeholder="e.g. music, interview, tech">
+                </div>
+                
+                <button type="button" onclick="showUploadSuccess()">Upload Podcast</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+        }
+        
+        function showUploadSuccess() {
+            alert('This is a demo page. In a real application, your podcast would be uploaded now.');
+        }
+        
+        // Check for system dark mode preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+</body>
+</html>

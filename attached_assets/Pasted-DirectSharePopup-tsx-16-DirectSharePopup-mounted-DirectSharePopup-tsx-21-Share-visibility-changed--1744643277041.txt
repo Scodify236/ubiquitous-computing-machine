@@ -1,0 +1,92 @@
+DirectSharePopup.tsx:16 DirectSharePopup mounted
+DirectSharePopup.tsx:21 Share visibility changed: {isOpen: false, content: null}
+InstallPrompt.tsx:48 Setting up beforeinstallprompt listener
+serviceWorkerRegistration.js:36 Service Worker URL: https://5cce8af0-6ed5-4493-aa89-e2070b30fe19-00-1fn9qxw0d487j.pike.replit.dev/service-worker.js
+/auth:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+InstallPrompt.tsx:54 Before install prompt event fired!
+/auth:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+hook.js:608 Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>. Error Component Stack
+    at a (<anonymous>)
+    at a (<anonymous>)
+    at index.js:251:18
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at FeaturedCreators (FeaturedCreators.tsx:54:38)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at main (<anonymous>)
+    at Home (Home.tsx:32:17)
+    at HomeRoute (App.tsx:25:22)
+    at Route (index.js:227:18)
+    at Switch (index.js:314:19)
+    at Suspense (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at AppContent (App.tsx:47:24)
+    at NetworkProvider (NetworkContext.tsx:17:67)
+    at App (<anonymous>)
+    at QueryClientProvider (QueryClientProvider.tsx:30:3)
+overrideMethod @ hook.js:608
+printWarning @ react-dom.development.js:86
+error @ react-dom.development.js:60
+validateDOMNesting @ react-dom.development.js:10849
+createInstance @ react-dom.development.js:10930
+completeWork @ react-dom.development.js:22226
+completeUnitOfWork @ react-dom.development.js:26635
+performUnitOfWork @ react-dom.development.js:26607
+workLoopSync @ react-dom.development.js:26505
+renderRootSync @ react-dom.development.js:26473
+performSyncWorkOnRoot @ react-dom.development.js:26124
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+setTimeout
+scheduleFn @ notifyManager.ts:22
+flush @ notifyManager.ts:37
+batch @ notifyManager.ts:56
+dispatch_fn @ query.ts:617
+setData @ query.ts:218
+onSuccess @ query.ts:507
+resolve @ retryer.ts:107
+Promise.then
+run @ retryer.ts:159
+start @ retryer.ts:218
+fetch @ query.ts:540
+executeFetch_fn @ queryObserver.ts:346
+onSubscribe @ queryObserver.ts:108
+subscribe @ subscribable.ts:11
+(anonymous) @ useBaseQuery.ts:92
+subscribeToStore @ react-dom.development.js:16139
+commitHookEffectListMount @ react-dom.development.js:23189
+commitPassiveMountOnFiber @ react-dom.development.js:24965
+commitPassiveMountEffects_complete @ react-dom.development.js:24930
+commitPassiveMountEffects_begin @ react-dom.development.js:24917
+commitPassiveMountEffects @ react-dom.development.js:24905
+flushPassiveEffectsImpl @ react-dom.development.js:27078
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690Understand this error
+LightAudioPlayer.tsx:28 Audio playback failed: AbortError: The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22
+overrideMethod @ hook.js:608
+(anonymous) @ LightAudioPlayer.tsx:28
+Promise.catch
+(anonymous) @ LightAudioPlayer.tsx:27
+commitHookEffectListMount @ react-dom.development.js:23189
+commitPassiveMountOnFiber @ react-dom.development.js:24965
+commitPassiveMountEffects_complete @ react-dom.development.js:24930
+commitPassiveMountEffects_begin @ react-dom.development.js:24917
+commitPassiveMountEffects @ react-dom.development.js:24905
+flushPassiveEffectsImpl @ react-dom.development.js:27078
+flushPassiveEffects @ react-dom.development.js:27023
+performSyncWorkOnRoot @ react-dom.development.js:26115
+flushSyncCallbacks @ react-dom.development.js:12042
+commitRootImpl @ react-dom.development.js:26998
+commitRoot @ react-dom.development.js:26721
+finishConcurrentRender @ react-dom.development.js:26020
+performConcurrentWorkOnRoot @ react-dom.development.js:25848
+workLoop @ scheduler.development.js:266
+flushWork @ scheduler.development.js:239
+performWorkUntilDeadline @ scheduler.development.js:533Understand this error

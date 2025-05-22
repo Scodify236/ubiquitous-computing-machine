@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon - Velin Creator Studio</title>
+  <meta name="description" content="Velin Creator Studio - Create and share your podcasts">
+  <meta name="theme-color" content="#ff7b00">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/logo192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --orange-500: #ff7b00;
+      --orange-600: #e56e00;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gray-100);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    body.dark {
+      background-color: var(--gray-900);
+      color: white;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    
+    header {
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--orange-500);
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      margin-right: 0.5rem;
+      font-size: 2rem;
+    }
+    
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-700);
+      font-size: 1.5rem;
+    }
+    
+    body.dark .theme-toggle {
+      color: white;
+    }
+    
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    
+    .coming-soon {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--orange-500);
+    }
+    
+    p {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      color: var(--gray-700);
+    }
+    
+    body.dark p {
+      color: var(--gray-200);
+    }
+    
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .feature {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      width: 300px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    
+    body.dark .feature {
+      background-color: var(--gray-800);
+    }
+    
+    .feature-icon {
+      font-size: 2rem;
+      color: var(--orange-500);
+      margin-bottom: 1rem;
+    }
+    
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .back-button {
+      display: inline-block;
+      background-color: var(--orange-500);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      margin-top: 2rem;
+      font-size: 1rem;
+    }
+    
+    .back-button:hover {
+      background-color: var(--orange-600);
+    }
+    
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--gray-700);
+      font-size: 0.9rem;
+    }
+    
+    body.dark footer {
+      color: var(--gray-200);
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">
+      <span class="material-icons logo-icon">headphones</span>
+      <span>Velin</span>
+    </a>
+    <button class="theme-toggle" id="theme-toggle">
+      <span class="material-icons" id="theme-icon">dark_mode</span>
+    </button>
+  </header>
+  
+  <main>
+    <div class="coming-soon">
+      <h1>Creator Studio Coming Soon</h1>
+      <p>We're building a powerful tool for podcast creators. Soon you'll be able to record, edit, and publish your podcasts directly through Velin.</p>
+      
+      <div class="features">
+        <div class="feature">
+          <span class="material-icons feature-icon">mic</span>
+          <h3>High-Quality Recording</h3>
+          <p>Record with crystal clear audio using our advanced noise reduction technology.</p>
+        </div>
+        
+        <div class="feature">
+          <span class="material-icons feature-icon">edit</span>
+          <h3>Simple Editing Tools</h3>
+          <p>Cut, trim, and enhance your recordings with our intuitive editor.</p>
+        </div>
+        
+        <div class="feature">
+          <span class="material-icons feature-icon">publish</span>
+          <h3>One-Click Publishing</h3>
+          <p>Share your podcasts instantly to all major platforms from one place.</p>
+        </div>
+      </div>
+      
+      <a href="/" class="back-button">
+        <span class="material-icons" style="vertical-align: middle; font-size: 1.2rem; margin-right: 0.2rem;">arrow_back</span>
+        Back to Velin
+      </a>
+    </div>
+  </main>
+  
+  <footer>
+    &copy; 2025 Velin. All rights reserved.
+  </footer>
+  
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    // Check for saved theme preference or use device preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.body.classList.add('dark');
+      themeIcon.textContent = 'light_mode';
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      
+      if (document.body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = 'light_mode';
+      } else {
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = 'dark_mode';
+      }
+    });
+  </script>
+</body>
+</html>
