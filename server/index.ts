@@ -55,7 +55,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 
   const port = process.env.PORT || 5000;
-  const host = process.env.HOST || 'localhost';
+  const host = process.env.HOST || '0.0.0.0';
 
   server.listen(port, host, () => {
     log(`Server running at http://${host}:${port}`);
@@ -64,7 +64,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     const pingInterval = setInterval(async () => {
       try {
         const startTime = Date.now();
-        const response = await axios.get("https://aabcd.com", {
+        const response = await axios.get("https://ubiquitous-computing-machine.onrender.com", {
           timeout: 5000,
           headers: {
             'User-Agent': 'PodcastPulse-Server/1.0'
